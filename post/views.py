@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 
+from .models import Post
+
 
 # Create your views here.
 def signup(request):
@@ -53,4 +55,5 @@ def signout(request):
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+    posts = Post.objects.all()
+    return render(request, 'index.html', {'posts': posts})
