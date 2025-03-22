@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
@@ -25,4 +26,19 @@ def signup(request):
 
 
 def signin(request):
-    return render(request, 'signin.html')
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user = authenticate(request, email=email, password=password)
+        
+        if user is None:
+            return render(request, 'signin.html', {'error': 'メールアドレスまたは、パスワードが違います。'})
+
+        return redirect('index')
+    else:
+        return render(request, 'signin.html')
+
+
+def index(request):
+    return render(request, 'index.html')
