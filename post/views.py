@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 
@@ -31,14 +32,19 @@ def signin(request):
         password = request.POST['password']
 
         user = authenticate(request, email=email, password=password)
-        
-        if user is None:
-            return render(request, 'signin.html', {'error': 'メールアドレスまたは、パスワードが違います。'})
-
-        return redirect('index')
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            return render(
+                request,
+                'signin.html',
+                {'error': 'メールアドレスまたは、パスワードが違います。'},
+            )
     else:
         return render(request, 'signin.html')
 
 
+@login_required
 def index(request):
     return render(request, 'index.html')
