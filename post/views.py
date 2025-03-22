@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -13,7 +13,7 @@ def signup(request):
         password = request.POST['password']
 
         try:
-            user = User.objects.create_user(username, email, password)
+            User.objects.create_user(username, email, password)
         except IntegrityError:
             return render(
                 request,
@@ -43,6 +43,12 @@ def signin(request):
             )
     else:
         return render(request, 'signin.html')
+
+
+@login_required
+def signout(request):
+    logout(request)
+    return redirect('signin')
 
 
 @login_required
