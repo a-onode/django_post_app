@@ -28,13 +28,15 @@
                 <p>{{ post.created_at }}</p>
             </div>
             <p>{{ post.content }}</p>
+            {% if post.image %}
             <div class="d-flex justify-content-center mb-4">
                 <img src="{{ post.image.url }}" class="img-fluid rounded w-75" alt="">
             </div>
+            {% endif %}
             {% if post.poster == request.user %}
             <div class="d-flex justify-content-between">
                 <a href="#" class="btn btn-primary mr-2 w-50" role="button" aria-pressed="true">Update</a>
-                <a href="#" class="btn btn-danger w-50" role="button" aria-pressed="true">Delete</a>
+                <a href="{% url 'delete' post.id %}" class="btn btn-danger w-50" role="button" aria-pressed="true">Delete</a>
             </div>
             {% endif %}
         </div>
