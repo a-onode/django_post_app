@@ -63,3 +63,10 @@ def index(request):
 def detail(request, id):
     post = get_object_or_404(Post, id=id)
     return render(request, 'detail.html', {'post': post})
+
+
+@login_required
+def delete(request, id):
+    post = get_object_or_404(Post, id=id)
+    post.delete()
+    return redirect('index')
