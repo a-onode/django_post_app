@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Post
 
@@ -57,3 +57,9 @@ def signout(request):
 def index(request):
     posts = Post.objects.all()
     return render(request, 'index.html', {'posts': posts})
+
+
+@login_required
+def detail(request, id):
+    post = get_object_or_404(Post, id=id)
+    return render(request, 'detail.html', {'post': post})

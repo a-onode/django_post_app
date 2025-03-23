@@ -25,14 +25,16 @@
     <div class="card mt-3 mb-3">
         <div class="card-body">
             <div class="d-flex justify-content-between">
-                <h3>{{ post.title }}</h3>
+                <h3><a href="{% url 'detail' post.id %}" class="text-dark">{{ post.title }}</a></h3>
                 <p>{{ post.created_at }}</p>
             </div>
             <p>{{ post.content }}</p>
+            {% if post.poster == request.user %}
             <div class="d-flex justify-content-end">
                 <a href="#" class="btn btn-primary mr-2" role="button" aria-pressed="true">Update</a>
                 <a href="#" class="btn btn-danger" role="button" aria-pressed="true">Delete</a>
             </div>
+            {% endif %}
         </div>
     </div>
     {% endfor %}
