@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'index' %}">Post App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01"
+        aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signout' %}">Signout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container" role="main">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="TitleInput">Title</label>
+            <input type="text" class="form-control" id="titleInput" name="title">
+        </div>
+        <div class="form-group">
+            <label for="contentTextarea">Content</label>
+            <textarea class="form-control" id="contentTextarea" name="content" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="imageInput">Image</label>
+            <input type="file" class="form-control-file" id="imageInput" name="image">
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'index' %}" role="button" aria-pressed="true">Back</a>
+            <button type="submit" class="btn btn-primary mb-2">Create</button>
+        </div>
+    </form>
+</main>
+{% endblock %}

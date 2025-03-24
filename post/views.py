@@ -60,6 +60,25 @@ def index(request):
 
 
 @login_required
+def create(request):
+    if request.method == 'POST':
+        user = request.user
+        title = request.POST['title']
+        content = request.POST['content']
+        image = request.FILES['image']
+
+        Post.objects.create(
+            title=title,
+            content=content,
+            image=image,
+            poster=user,
+        )
+        return redirect('index')
+
+    return render(request, 'create.html')
+
+
+@login_required
 def detail(request, id):
     post = get_object_or_404(Post, id=id)
     return render(request, 'detail.html', {'post': post})
