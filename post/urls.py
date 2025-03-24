@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from .views import signup, signin, signout, index, detail, delete
+from .views import signup, signin, signout, index, create, detail, delete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -9,6 +9,7 @@ urlpatterns = [
     path('signin/', signin, name='signin'),
     path('signout/', signout, name='signout'),
     path('index/', index, name='index'),
+    path('create/', create, name='create'),
     path('detail/<int:id>/', detail, name='detail'),
     path('delete/<int:id>/', delete, name='delete'),
 ]
