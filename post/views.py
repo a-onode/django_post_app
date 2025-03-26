@@ -1,64 +1,16 @@
 import os
 
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Post
 
 
 # Create your views here.
-def signup(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-
-        try:
-            User.objects.create_user(username, email, password)
-        except IntegrityError:
-            return render(
-                request,
-                'signup.html',
-                {'error': 'このユーザーは既に登録されています。'},
-            )
-        else:
-            return redirect('signin')
-    else:
-        return render(request, 'signup.html')
-
-
-def signin(request):
-    if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-
-        user = authenticate(request, email=email, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('index')
-        else:
-            return render(
-                request,
-                'signin.html',
-                {'error': 'メールアドレスまたは、パスワードが違います。'},
-            )
-    else:
-        return render(request, 'signin.html')
-
-
-@login_required
-def signout(request):
-    logout(request)
-    return redirect('signin')
-
-
 @login_required
 def index(request):
     posts = Post.objects.all()
-    return render(request, 'index.html', {'posts': posts})
+    return render(request, 'post/index.html', {'posts': posts})
 
 
 @login_required
@@ -67,7 +19,7 @@ def create(request):
         user = request.user
         title = request.POST['title']
         content = request.POST['content']
-        image = request.FILES['image']
+        image = request.FILES.get('image')
 
         Post.objects.create(
             title=title,
@@ -77,13 +29,13 @@ def create(request):
         )
         return redirect('index')
 
-    return render(request, 'create.html')
+    return render(request, 'post/create.html')
 
 
 @login_required
 def detail(request, id):
     post = get_object_or_404(Post, id=id)
-    return render(request, 'detail.html', {'post': post})
+    return render(request, 'post/detail.html', {'post': post})
 
 
 @login_required
@@ -108,7 +60,7 @@ def update(request, id):
         post.save()
         return redirect('detail', id=post.id)
 
-    return render(request, 'update.html', {'post': post})
+    return render(request, 'post/update.html', {'post': post})
 
 
 @login_required
