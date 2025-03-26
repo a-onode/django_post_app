@@ -35,7 +35,7 @@
             {% endif %}
             {% if post.poster == request.user %}
             <div class="d-flex justify-content-between">
-                <a href="#" class="btn btn-primary mr-2 w-50" role="button" aria-pressed="true">Update</a>
+                <a href="{% url 'update' post.id %}" class="btn btn-primary mr-2 w-50" role="button" aria-pressed="true">Update</a>
                 <a href="{% url 'delete' post.id %}" class="btn btn-danger w-50" role="button" aria-pressed="true">Delete</a>
             </div>
             {% endif %}

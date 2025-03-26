@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -82,6 +84,31 @@ def create(request):
 def detail(request, id):
     post = get_object_or_404(Post, id=id)
     return render(request, 'detail.html', {'post': post})
+
+
+@login_required
+def update(request, id):
+    post = Post.objects.get(id=id)
+    if request.method == 'POST':
+        title = request.POST['title']
+        content = request.POST['content']
+        image = request.FILES.get('image')
+        delete_image = request.POST.get('delete_image')
+
+        post.title = title
+        post.content = content
+        if image:
+            if post.image:
+                os.remove(post.image.path)
+            post.image = image
+        elif delete_image == 'on':
+            if post.image:
+                os.remove(post.image.path)
+            post.image = None
+        post.save()
+        return redirect('detail', id=post.id)
+
+    return render(request, 'update.html', {'post': post})
 
 
 @login_required
