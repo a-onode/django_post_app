@@ -34,7 +34,7 @@
             <p>{{ post.content }}</p>
             {% if post.poster == request.user %}
             <div class="d-flex justify-content-end">
-                <a href="#" class="btn btn-primary mr-2" role="button" aria-pressed="true">Update</a>
+                <a href="{% url 'update' post.id %}" class="btn btn-primary mr-2" role="button" aria-pressed="true">Update</a>
                 <a href="{% url 'delete' post.id %}" class="btn btn-danger" role="button" aria-pressed="true">Delete</a>
             </div>
             {% endif %}
