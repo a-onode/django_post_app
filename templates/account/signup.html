@@ -1,4 +1,9 @@
 {% extends 'account/base.html' %}
+{% load static%}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock %}
 
 {% block content %}
 <form method="POST" class="form-signin">
