@@ -1,0 +1,59 @@
+{% extends 'post/base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'index' %}">Post App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01"
+        aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signout' %}">Signout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container" role="main">
+    <div class="p-3">
+        <a class="btn btn-primary btn-lg" href="{% url 'create' %}" role="button">Create</a>
+    </div>
+    {% for post in posts %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h3><a href="{% url 'detail' post.id %}" class="text-dark">{{ post.title }}</a></h3>
+                <p>{{ post.created_at }}</p>
+            </div>
+            <p>{{ post.content }}</p>
+            {% if post.poster == request.user %}
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'update' post.id %}" class="btn btn-primary mr-2" role="button" aria-pressed="true">Update</a>
+                <a href="{% url 'delete' post.id %}" class="btn btn-danger" role="button" aria-pressed="true">Delete</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center mt-4">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</main>
+{% endblock %}
